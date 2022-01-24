@@ -3,7 +3,20 @@ package leetcode
 import (
 	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
+
+func twoSum(nums []int, target int) []int {
+	m := make(map[int]int)
+	for k, v := range nums {
+		if idx, ok := m[target-v]; ok {
+			return []int{idx, k}
+		}
+		m[v] = k
+	}
+	return nil
+}
 
 type question1 struct {
 	para1
@@ -48,7 +61,7 @@ func Test_Problem1(t *testing.T) {
 
 		{
 			para1{[]int{0, 3}, 5},
-			ans1{[]int{}},
+			ans1{[]int(nil)},
 		},
 		// 如需多个测试，可以复制上方元素。
 	}
@@ -56,8 +69,8 @@ func Test_Problem1(t *testing.T) {
 	fmt.Printf("------------------------Leetcode Problem 1------------------------\n")
 
 	for _, q := range qs {
-		_, p := q.ans1, q.para1
-		fmt.Printf("【input】:%v       【output】:%v\n", p, twoSum(p.nums, p.target))
+		a, p := q.ans1, q.para1
+		assert.Equal(t, a.one, twoSum(p.nums, p.target), q)
 	}
 	fmt.Printf("\n\n\n")
 }
